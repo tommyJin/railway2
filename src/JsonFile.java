@@ -64,7 +64,7 @@ public class JsonFile {
         Signal s7 = new Signal("s7",1, "b5", "b6","");
         Signal s8 = new Signal("s8",0, "b6", "b5","s3;s5");
 
-        Route r1 = new Route("r1","s1","s6","p1:p;p2:m","s2;s3;s5","b2;p1;b4",1);
+        Route r1 = new Route("r1","s1","s6",1);
         List<Signal> signals = new ArrayList<>();
         signals.add(s2);
         signals.add(s3);
@@ -73,7 +73,7 @@ public class JsonFile {
         list.add(r1);
 
         signals.clear();
-        Route r2 = new Route("r2","s1","s4","p1:m;p2:p","s2;s3;s5","b2;p1;b3",1);
+        Route r2 = new Route("r2","s1","s4",1);
         signals.add(s2);
         signals.add(s3);
         signals.add(s5);
@@ -81,14 +81,14 @@ public class JsonFile {
         list.add(r2);
 
         signals.clear();
-        Route r3 = new Route("r3","s4","s7","p2:p","s8;s6","p2;b5",1);
+        Route r3 = new Route("r3","s4","s7",1);
         signals.add(s8);
         signals.add(s6);
 //        r3.setSignals(signals);
         list.add(r3);
 
         signals.clear();
-        Route r4 = new Route("r4","s6","s7","p2:p","s8;s4","p2;b5",1);
+        Route r4 = new Route("r4","s6","s7",1);
         signals.add(s8);
         signals.add(s4);
 //        r4.setSignals(signals);
@@ -97,7 +97,7 @@ public class JsonFile {
 
 
         signals.clear();
-        Route r5 = new Route("r5","s8","s5","p1:m;p2:p","s4;s6;s7","b5;p2;b4",0);
+        Route r5 = new Route("r5","s8","s5",0);
         signals.add(s7);
         signals.add(s6);
         signals.add(s4);
@@ -105,7 +105,7 @@ public class JsonFile {
         list.add(r5);
 
         signals.clear();
-        Route r6 = new Route("r6","s8","s3","p1:p;p2:m","s4;s6;s7","b5;p2;b3",0);
+        Route r6 = new Route("r6","s8","s3",0);
         signals.add(s7);
         signals.add(s6);
         signals.add(s4);
@@ -113,14 +113,14 @@ public class JsonFile {
         list.add(r6);
 
         signals.clear();
-        Route r7 = new Route("r7","s3","s2","p1:m","s1;s5","p1;b2",0);
+        Route r7 = new Route("r7","s3","s2",0);
         signals.add(s1);
         signals.add(s6);
 //        r7.setSignals(signals);
         list.add(r7);
 
         signals.clear();
-        Route r8 = new Route("r8","s5","s2","p1:p","s1;s3","p1;b2",0);
+        Route r8 = new Route("r8","s5","s2",0);
         signals.add(s1);
         signals.add(s6);
 //        r8.setSignals(signals);

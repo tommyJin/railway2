@@ -20,7 +20,7 @@ public class Route {
 
     }
 
-    public Route(String id,String source,String dest,String points,String signals,String path,int direction){
+    public Route(String id,String source,String dest,int direction){
         this.id = id;
         this.source = source;
         this.dest = dest;

@@ -25,11 +25,6 @@ public class Railway {
         this.routes = jf.getRoute();
         this.paths = getPaths();
 
-
-        for (int i = 0; i < this.paths.size(); i++) {
-//            System.out.println("Path current:"+this.paths.get(i).getCurrent()+"  next:"+this.paths.get(i).getNext());
-        }
-
         for (int i = 0; i < this.routes.size(); i++) {
             Route route = Route.dao.getById(this.routes, this.routes.get(i).getId());
             if (route.getDirection() == 1) {//signal direction=0->down  1->up

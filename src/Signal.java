@@ -18,7 +18,7 @@ public class Signal {
     public Signal() {
     }
 
-    public Signal(String name, int direction, String currentBlock , String controllBlock,String next) {
+    public Signal(String name, int direction, String currentBlock , String controllBlock, String next) {
         this.name = name;
         this.direction = direction;
         this.controllBlock = controllBlock;
