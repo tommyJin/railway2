@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by tommy on 2016/2/18.
@@ -15,7 +17,6 @@ public class Railway {
     List<Journey> journeys = new ArrayList<>();
 
     public Railway(){
-
     }
 
     public Railway(String nonce) {
@@ -63,12 +64,6 @@ public class Railway {
             String points = getPoint(route);
             this.upRoutes.get(i).setPoints(points);
 
-            System.out.println("Route " + route.getId()+" s:"+route.getSource()+" d:"+route.getDest());
-            System.out.println("path = " + path);
-            System.out.println("signal = " + signal);
-            System.out.println("point = " + points + "\n");
-            String conflicts = "";
-
         }
 
 
@@ -85,24 +80,39 @@ public class Railway {
             String points = getPoint(route);
             this.downRoutes.get(i).setPoints(points);
 
-            System.out.println("Route " + route.getId()+" s:"+route.getSource()+" d:"+route.getDest());
-            System.out.println("path = " + path);
-            System.out.println("signal = " + signal);
-            System.out.println("point = " + points + "\n");
-            String conflicts = "";
-
         }
 
         this.routes.clear();//reset all routes
         this.routes.addAll(upRoutes);//add all up direction routes to routes
         this.routes.addAll(downRoutes);//add all down direction routes to routes
+
+        for (int i = 0; i < this.routes.size(); i++) {
+            Route route = this.routes.get(i);
+            String conflicts = getConflict(this.routes.get(i));
+            this.routes.get(i).setConflicts(conflicts);
+
+            System.out.println("Route " + route.getId()+" s:"+route.getSource()+" d:"+route.getDest());
+            System.out.println("path = " + route.getPath());
+            System.out.println("signal = " + route.getSignals());
+            System.out.println("conflict = " + route.getConflicts());
+            System.out.println("point = " + route.getPoints() + "\n");
+        }
+
+        this.upRoutes.clear();
+        this.downRoutes.clear();
+
+        //set up and down direction routes
+        for (int i = 0; i < this.routes.size(); i++) {
+            Route route = Route.dao.getById(this.routes, this.routes.get(i).getId());
+            if (route.getDirection() == 1) {//signal direction=0->down  1->up
+                this.upRoutes.add(route);
+            } else {
+                this.downRoutes.add(route);
+            }
+        }
     }
 
-//    public Railway(String nonce){
-//        JsonFile jf = new JsonFile();
-//        this.blocks = jf.getBlock();
-//        this.signals = jf.getSignal();
-//    }
+
 
     /**
     * add a journey by inputing  source and dest signals and signals which would passby
@@ -578,7 +588,37 @@ public class Railway {
         }
         return signal;
     }
-    
+
+    /**
+     * get all conflicts by the route
+     * */
+    public String getConflict( Route route) {
+        String conflict = "";
+        List<String> list = new ArrayList<>();
+        List<Route> routes =  this.routes;
+        String path = route.getPath();
+
+        for (int j = 0; j < routes.size(); j++) {
+            Route route1 = routes.get(j);
+            if (!route.getId().equals(route1.getId())) {
+                String path1 = route1.getPath();
+                String[] path1s = path1.split(";");
+                for (int i = 0; i < path1s.length; i++) {
+                    if (path.contains(path1s[i]+";")){
+                        if (!list.contains(route1.getId())) {
+                            list.add(route1.getId());
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            conflict += list.get(i)+";";
+        }
+
+        return conflict.substring(0,conflict.length()-1);
+    }
 
     /**
     * getter and setter
@@ -622,7 +662,6 @@ public class Railway {
     public void setDownRoutes(List<Route> downRoutes) {
         this.downRoutes = downRoutes;
     }
-
 
     public List<Signal> getSignals() {
         return signals;
