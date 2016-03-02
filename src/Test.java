@@ -12,10 +12,10 @@ public class Test {
         String source = "s1";
         String dest = "s7";
         String passby = "s1;s4;s7";
-        railway.addJourney("j1", "s1", "s7", "s1;s4;s7");
-        railway.addJourney("j2", "s1", "s7", "s1;s6;s7");
-        railway.addJourney("j3", "s8", "s2", "s8;s3;s2");
-        railway.addJourney("j4", "s8", "s2", "s8;s5;s2");
+        railway.addJourney("j1", "s1", "s8", "s1;s4;s7;s8");
+//        railway.addJourney("j2", "s1", "s7", "s1;s6;s7");
+        railway.addJourney("j3", "s9", "s2", "s9;s5;s2");
+//        railway.addJourney("j4", "s8", "s2", "s8;s5;s2");
 
         boolean flag = true;
 

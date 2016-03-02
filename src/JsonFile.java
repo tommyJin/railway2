@@ -18,12 +18,12 @@ public class JsonFile {
         Signal s4 = new Signal("s4",1, "b3", "p2","s7");
         Signal s5 = new Signal("s5",0, "b4", "p1","s2");
         Signal s6 = new Signal("s6",1, "b4", "p2","s7");
-        Signal s7 = new Signal("s7",1, "b5", "b6","");
-        Signal s8 = new Signal("s8",0, "b6", "b5","s3;s5");
+        Signal s7 = new Signal("s7",1, "b5", "p3","s8");
+        Signal s8 = new Signal("s8",1, "b7", "b8","");
 
-//        Signal s9 = new Signal("s9",0, "b8", "b7","s3;s5;s10");
-//        Signal s10 = new Signal("s10",0, "b6", "b9","");
-//        Signal s11 = new Signal("s11",1, "b9", "b6","s8");
+        Signal s9 = new Signal("s9",0, "b8", "b7","s3;s5;s10");
+        Signal s10 = new Signal("s10",0, "b6", "b9","");
+        Signal s11 = new Signal("s11",1, "b9", "b6","s8");
 //        Signal s12 = new Signal("s12",1, "b8", "p4","s13");
 //        Signal s13 = new Signal("s13",1, "b9", "b10","");
 //        Signal s14 = new Signal("s14",0, "b10", "b9","s9;s11");
@@ -42,9 +42,9 @@ public class JsonFile {
         list.add(s7);
         list.add(s8);
 
-//        list.add(s9);
-//        list.add(s10);
-//        list.add(s11);
+        list.add(s9);
+        list.add(s10);
+        list.add(s11);
 //        list.add(s12);
 //        list.add(s13);
 //        list.add(s14);
@@ -58,16 +58,16 @@ public class JsonFile {
         Block b2 = new Block("b2",2,"b1","p1","");
         Block b3 = new Block("b3",3,"p1","p2","n1");
         Block b4 = new Block("b4",4,"p1","p2","n1");
-        Block b5 = new Block("b5",5,"p2","b6","");
-        Block b6 = new Block("b6",6,"b5","","");
+        Block b5 = new Block("b5",4,"p2","p3","n2");
+        Block b6 = new Block("b6",3,"b9","p3","n2");
         Block p1 = new Block("p1",12,"b2","b3;b4","");
         Block p2 = new Block("p2",21,"b3;b4","b5","");
 
-//        Block b7 = new Block("b7",5,"p3","b8","");
-//        Block b8 = new Block("b8",6,"b7","","");
-//        Block b9 = new Block("b9",1,"","b6","");
+        Block b7 = new Block("b7",5,"p3","b8","");
+        Block b8 = new Block("b8",6,"b7","","");
+        Block b9 = new Block("b9",1,"","b6","");
 //        Block b10 = new Block("b10",6,"b9","","");
-//        Block p3 = new Block("p3",21,"b5;b6","b7","");
+        Block p3 = new Block("p3",21,"b5;b6","b7","");
 //        Block p4 = new Block("p4",21,"b7;b8","b9","");
 
 
@@ -78,18 +78,19 @@ public class JsonFile {
         list.add(b5);
         list.add(b6);
 
-//        list.add(b7);
-//        list.add(b8);
-//        list.add(b9);
+        list.add(b7);
+        list.add(b8);
+        list.add(b9);
 //        list.add(b10);
 
         list.add(p1);
         list.add(p2);
 
-//        list.add(p3);
+        list.add(p3);
 //        list.add(p4);
         return list;
     }
+
 
     public List<Route> getRoute(){
         List<Route> list = new ArrayList<>();

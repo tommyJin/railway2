@@ -65,6 +65,10 @@ public class Railway {
             this.routes.get(i).setSignals(signal);
 
             String points = getPoint(route);
+
+            if ( (points.substring(points.length() -1, points.length() )).equals(";") ){
+                points = points.substring(0,points.length() -1);
+            }
             this.routes.get(i).setPoints(points);
         }
 
@@ -429,18 +433,13 @@ public class Railway {
             if (p.getType()>10){
                 points.add(p);//add this point into the list
             }
-//            if (p.getType() == 12) {
-//                pointFlag = true;
-//                break;
-//            } else if (p.getType() == 21) {
-//                pointFlag = false;
-//                break;
-//            }
         }
 
+        Block source = getBlockByName(getSignalByName(route.getSource()).getCurrentBlock());
+        Block dest = getBlockByName(getSignalByName(route.getDest()).getCurrentBlock());
+
         if (points.size()==1) {
-            Block source = getBlockByName(getSignalByName(route.getSource()).getCurrentBlock());
-            Block dest = getBlockByName(getSignalByName(route.getDest()).getCurrentBlock());
+
 
             if (dest.getType()>=3 && dest.getType()<=4){
                 pointFlag = true;
@@ -462,9 +461,19 @@ public class Railway {
                 }
 
                 if (dest.getType() == 4) {//on PLUS
-                    point = leftPoint + ":p;" + rightPoint + ":m";
+                    if (leftPoint.contains("p")){
+                        point += leftPoint + ":p;";
+                    }
+                    if (rightPoint.contains("p")) {
+                        point += rightPoint + ":m";
+                    }
                 } else {// on MINUS
-                    point = leftPoint + ":m;" + rightPoint + ":p";
+                    if (leftPoint.contains("p")) {
+                        point += leftPoint + ":m;";
+                    }
+                    if (rightPoint.contains("p")){
+                        point += rightPoint + ":p";
+                    }
                 }
             } else {
                 if (source.getType() == 4) {//on PLUS
@@ -473,7 +482,14 @@ public class Railway {
                     point = points.get(0).getName() + ":m";
                 }
             }
+        }else {
+            String lastPoint = "";
+            for (int i = 0; i < points.size(); i++) {
+                point += points.get(i).getName()+":p;";
+            }
+            point += dest.getNext()+":p";
         }
+
         return point;
     }
 
