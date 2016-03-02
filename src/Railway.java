@@ -17,6 +17,9 @@ public class Railway {
     List<Journey> journeys = new ArrayList<>();
 
     public Railway(){
+        JsonFile jf = new JsonFile();
+        this.blocks = jf.getBlock();
+        this.signals = jf.getSignal();
     }
 
     public Railway(String nonce) {

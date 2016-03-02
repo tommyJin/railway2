@@ -130,10 +130,10 @@ public class JsonFile {
         return list;
     }
 
-//    public Railway getRailway(){
-//        Railway railway = new Railway("");
-//        return railway;
-//    }
+    public Railway getRailway(){
+        Railway railway = new Railway();
+        return railway;
+    }
 
 
     /**

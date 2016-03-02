@@ -14,14 +14,14 @@ public class Init {
         JsonFile jf = new JsonFile();
         Gson gson = new Gson();
 
-//        try {
-//            jf.writeFile("./src/test.json", gson.toJson(jf.getRailway()));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            jf.writeFile("./src/test.json", gson.toJson(jf.getRailway()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        String jsonStr = jf.readFile("./src/test.json");
-        Railway railway = gson.fromJson(jsonStr, new TypeToken<Railway>(){}.getType());
-        System.out.println(railway.getBlocks().size()+" "+railway.getSignals().size());
+//        String jsonStr = jf.readFile("./src/test.json");
+//        Railway railway = gson.fromJson(jsonStr, new TypeToken<Railway>(){}.getType());
+//        System.out.println(railway.getBlocks().size()+" "+railway.getSignals().size());
     }
 }
