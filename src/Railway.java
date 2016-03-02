@@ -108,6 +108,7 @@ public class Railway {
     * */
     public void addJourney(String journeyId, String source, String dest, String passby) {
 //        System.out.println("#####################  Adding journeys begins! ####################");
+//        System.out.println(journeyId +" "+source+" "+dest+" "+passby+"   "+this.routes.size());
         Journey journey = new Journey(journeyId, source, dest);
         String[] passbys = passby.split(";");
         for (int i = 1; i < passbys.length; i++) {
@@ -137,16 +138,6 @@ public class Railway {
             Journey waiting = this.journeys.get(i);
             if (waiting.getState() == 0) {//if this journey is waiting
                 boolean flag = lock(waiting, waiting.getCurrentRoute());
-                for (int j = 0; j < this.signals.size(); j++) {
-                    System.out.println("Signal " + this.signals.get(j).getName() + "  :  " + this.signals.get(j).getPosition());
-                }
-                for (int j = 0; j < this.blocks.size(); j++) {
-                    if (this.blocks.get(j).getType() > 10) {//point
-                        System.out.println("Point " + this.blocks.get(j).getName() + "  :  " + this.blocks.get(j).getOccupy() + "  position: " + (this.blocks.get(j).getPosition() == 0 ? "PLUS" : "MINUS"));
-                    } else {
-                        System.out.println("Block " + this.blocks.get(j).getName() + "  :  " + this.blocks.get(j).getOccupy());
-                    }
-                }
                 if (flag) {
                     this.journeys.get(i).setState(1);
 
@@ -280,7 +271,7 @@ public class Railway {
                     if (flag) {// no journey occupy
                         blocks.get(i).setOccupy(journey.getId());
 
-                        if (blocks.get(i).getType() == 1) {// this is a point
+                        if (blocks.get(i).getType() > 10) {// this is a point
                             String[] point;
                             if (route.getPoints().contains(";")) {
                                 point = route.getPoints().split(";");
@@ -431,42 +422,56 @@ public class Railway {
         String path = route.getPath();
         String[] paths = path.split(";");
         Block p = new Block();
+        List<Block> points = new ArrayList<>();//store all points in this path
         boolean pointFlag = true;//true->move into a block between two points    false->move out of a block between two points
         for (int i = 0; i < paths.length; i++) {
             p = getBlockByName(paths[i]);
-            if (p.getType() == 12) {
-                pointFlag = true;
-                break;
-            } else if (p.getType() == 21) {
-                pointFlag = false;
-                break;
+            if (p.getType()>10){
+                points.add(p);//add this point into the list
             }
+//            if (p.getType() == 12) {
+//                pointFlag = true;
+//                break;
+//            } else if (p.getType() == 21) {
+//                pointFlag = false;
+//                break;
+//            }
         }
 
-        if (pointFlag) {
-            Block dest = getBlockByName( getSignalByName(route.getDest()).getCurrentBlock());
-            String leftPoint = "";
-            String rightPoint = "";
-
-            if (route.getDirection()==1){
-                leftPoint = dest.getPrevious();
-                rightPoint = dest.getNext();
-            }else {
-                leftPoint = dest.getNext();
-                rightPoint = dest.getPrevious();
-            }
-
-            if (dest.getType() == 4) {//on PLUS
-                point = leftPoint + ":p;" + rightPoint + ":m";
-            } else {// on MINUS
-                point = leftPoint + ":m;" + rightPoint + ":p";
-            }
-        } else {
+        if (points.size()==1) {
             Block source = getBlockByName(getSignalByName(route.getSource()).getCurrentBlock());
-            if (source.getType() == 4) {//on PLUS
-                point = p.getName() + ":p";
-            } else {// on MINUS
-                point = p.getName() + ":m";
+            Block dest = getBlockByName(getSignalByName(route.getDest()).getCurrentBlock());
+
+            if (dest.getType()>=3 && dest.getType()<=4){
+                pointFlag = true;
+            }else {
+                pointFlag = false;
+            }
+
+
+            if (pointFlag) {
+                String leftPoint = "";
+                String rightPoint = "";
+
+                if (route.getDirection() == 1) {
+                    leftPoint = dest.getPrevious();
+                    rightPoint = dest.getNext();
+                } else {
+                    leftPoint = dest.getNext();
+                    rightPoint = dest.getPrevious();
+                }
+
+                if (dest.getType() == 4) {//on PLUS
+                    point = leftPoint + ":p;" + rightPoint + ":m";
+                } else {// on MINUS
+                    point = leftPoint + ":m;" + rightPoint + ":p";
+                }
+            } else {
+                if (source.getType() == 4) {//on PLUS
+                    point = points.get(0).getName() + ":p";
+                } else {// on MINUS
+                    point = points.get(0).getName() + ":m";
+                }
             }
         }
         return point;
@@ -484,12 +489,12 @@ public class Railway {
 //        System.out.println(route.getDirection()+" "+next.getName()+" "+next.getPrevious()+" "+next.getNext());
         if (route.getDirection() == 1) {
             while (!next.getNext().contains(dest.getCurrentBlock())) {
-                path += next.getNext() + ";";
+                path += next.getNext().split(";")[0] + ";";
                 next = getBlockByName(next.getNext().split(";")[0]);
             }
         } else {
             while (!next.getPrevious().contains(dest.getCurrentBlock())) {
-                path += next.getPrevious() + ";";
+                path += next.getPrevious().split(";")[0] + ";";
                 next = getBlockByName(next.getPrevious().split(";")[0]);
             }
         }

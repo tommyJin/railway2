@@ -12,10 +12,10 @@ public class Test {
         String source = "s1";
         String dest = "s7";
         String passby = "s1;s4;s7";
-        railway.addJourney("j1", "s1", "s8", "s1;s4;s7;s8");
-        railway.addJourney("j2", "s1", "s7", "s1;s6;s7;s8");
-        railway.addJourney("j3", "s9", "s10", "s9;s10");
-        railway.addJourney("j4", "s9", "s2", "s9;s3;s2");
+        railway.addJourney("j1", "s1", "s7", "s1;s4;s7");
+        railway.addJourney("j2", "s1", "s7", "s1;s6;s7");
+        railway.addJourney("j3", "s8", "s2", "s8;s3;s2");
+        railway.addJourney("j4", "s8", "s2", "s8;s5;s2");
 
         boolean flag = true;
 
@@ -28,7 +28,16 @@ public class Test {
             }
 
             railway.checkWaitingList();
-
+            for (int j = 0; j < railway.getSignals().size(); j++) {
+                System.out.println("Signal " + railway.getSignals().get(j).getName() + "  :  " + railway.getSignals().get(j).getPosition());
+            }
+            for (int j = 0; j < railway.getBlocks().size(); j++) {
+                if (railway.getBlocks().get(j).getType() > 10) {//point
+                    System.out.println("Point " + railway.getBlocks().get(j).getName() + "  :  " + railway.getBlocks().get(j).getOccupy() + "  position: " + (railway.getBlocks().get(j).getPosition() == 0 ? "PLUS" : "MINUS"));
+                } else {
+                    System.out.println("Block " + railway.getBlocks().get(j).getName() + "  :  " + railway.getBlocks().get(j).getOccupy());
+                }
+            }
 
             for (int i = 0; i < railway.getJourneys().size(); i++) {
                 Journey j = railway.getJourneys().get(i);
@@ -42,6 +51,16 @@ public class Test {
                     e.printStackTrace();
                 }
                 railway.runFreely();
+                for (int j = 0; j < railway.getSignals().size(); j++) {
+                    System.out.println("Signal " + railway.getSignals().get(j).getName() + "  :  " + railway.getSignals().get(j).getPosition());
+                }
+                for (int j = 0; j < railway.getBlocks().size(); j++) {
+                    if (railway.getBlocks().get(j).getType() > 10) {//point
+                        System.out.println("Point " + railway.getBlocks().get(j).getName() + "  :  " + railway.getBlocks().get(j).getOccupy() + "  position: " + (railway.getBlocks().get(j).getPosition() == 0 ? "PLUS" : "MINUS"));
+                    } else {
+                        System.out.println("Block " + railway.getBlocks().get(j).getName() + "  :  " + railway.getBlocks().get(j).getOccupy());
+                    }
+                }
             }
 
             int counter = 0;
