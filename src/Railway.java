@@ -23,7 +23,6 @@ public class Railway {
     }
 
     public Railway(String nonce) {
-
         JsonFile jf = new JsonFile();
         Railway railway = jf.returnRailway();//get the railway object from file
         this.signals = railway.getSignals();//get all signals from file
@@ -44,6 +43,20 @@ public class Railway {
 
         this.routes = getRoute();//get all routes
 
+        //set points signals paths for each route in up direction
+        for (int i = 0; i < this.routes.size(); i++) {
+            Route route =  this.routes.get(i);
+
+            String path = getPath(route);
+            this.routes.get(i).setPath(path);
+
+            String signal = getSignal(route);
+            this.routes.get(i).setSignals(signal);
+
+            String points = getPoint(route);
+            this.routes.get(i).setPoints(points);
+        }
+
         //set up and down direction routes
         for (int i = 0; i < this.routes.size(); i++) {
             Route route = Route.dao.getById(this.routes, this.routes.get(i).getId());
@@ -53,41 +66,6 @@ public class Railway {
                 this.downRoutes.add(route);
             }
         }
-
-        //set points signals paths for each route in up direction
-        for (int i = 0; i < upRoutes.size(); i++) {
-            Route route = upRoutes.get(i);
-
-            String path = getPath(route);
-            this.upRoutes.get(i).setPath(path);
-
-            String signal = getSignal(route);
-            this.upRoutes.get(i).setSignals(signal);
-
-            String points = getPoint(route);
-            this.upRoutes.get(i).setPoints(points);
-
-        }
-
-
-        //set points signals paths for each route in down direction
-        for (int i = 0; i < downRoutes.size(); i++) {
-            Route route = downRoutes.get(i);
-
-            String path = getPath(route);
-            this.downRoutes.get(i).setPath(path);
-
-            String signal = getSignal(route);
-            this.downRoutes.get(i).setSignals(signal);
-
-            String points = getPoint(route);
-            this.downRoutes.get(i).setPoints(points);
-
-        }
-
-        this.routes.clear();//reset all routes
-        this.routes.addAll(upRoutes);//add all up direction routes to routes
-        this.routes.addAll(downRoutes);//add all down direction routes to routes
 
         for (int i = 0; i < this.routes.size(); i++) {
             Route route = this.routes.get(i);
@@ -100,9 +78,7 @@ public class Railway {
             System.out.println("conflict = " + route.getConflicts());
             System.out.println("point = " + route.getPoints() + "\n");
         }
-
-        this.upRoutes.clear();
-        this.downRoutes.clear();
+        System.out.println("6");
 
         //set up and down direction routes
         for (int i = 0; i < this.routes.size(); i++) {
@@ -135,8 +111,8 @@ public class Railway {
         journey.setCurrentRoute(routeId);//set the current route id
         Route route = Route.dao.getById(this.routes, routeId);//get the route by its id
         Signal signal = Signal.dao.getByName(this.signals, route.getSource());//get the signal by route source
+//        System.out.println("Journey "+journeyId+" current route is " + journey.getCurrentRoute() + " and block is " + journey.getCurrentBlock());
         journey.setCurrentBlock(signal.getCurrentBlock());//set the journey current block by signal's current
-//        System.out.println("Journey current route is " + journey.getCurrentRoute() + " and block is " + journey.getCurrentBlock());
 
         this.journeys.add(journey);
 //        System.out.println("#####################  Adding journeys ends! ####################\n");
@@ -155,7 +131,7 @@ public class Railway {
                     System.out.println("Signal " + this.signals.get(j).getName() + "  :  " + this.signals.get(j).getPosition());
                 }
                 for (int j = 0; j < this.blocks.size(); j++) {
-                    if (this.blocks.get(j).getType() == 1) {//point
+                    if (this.blocks.get(j).getType() > 10) {//point
                         System.out.println("Point " + this.blocks.get(j).getName() + "  :  " + this.blocks.get(j).getOccupy() + "  position: " + (this.blocks.get(j).getPosition() == 0 ? "PLUS" : "MINUS"));
                     } else {
                         System.out.println("Block " + this.blocks.get(j).getName() + "  :  " + this.blocks.get(j).getOccupy());
@@ -495,6 +471,7 @@ public class Railway {
 
         Block next = getBlockByName(source.getCurrentBlock());//source block
         String path = "";
+//        System.out.println(route.getDirection()+" "+next.getName()+" "+next.getPrevious()+" "+next.getNext());
         if (route.getDirection() == 1) {
             while (!next.getNext().contains(dest.getCurrentBlock())) {
                 path += next.getNext() + ";";
