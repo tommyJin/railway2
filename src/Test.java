@@ -7,8 +7,9 @@ public class Test {
         JsonFile jf = new JsonFile();
 //        jf.returnRailway();
 
-
-        Railway railway = jf.returnRailway();
+        System.out.println("---");
+        Railway railway = new Railway();
+        System.out.println("---");
 
         String source = "s1";
         String dest = "s7";

@@ -87,7 +87,6 @@ public class Test1 {
 
     }
 
-
     public static Block getBlockByName(List<Block> blocks, String name) {
         Block block = blocks.get(0);
         for (int i = 0; i < blocks.size(); i++) {
@@ -109,7 +108,6 @@ public class Test1 {
         }
         return signal;
     }
-
 
     public static List<Route> getRoute(Railway railway){
         List<Route> routes = new ArrayList<>();
