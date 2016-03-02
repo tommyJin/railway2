@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Test1 {
     public static void main(String[] args) {
-        Railway railway = new Railway("");
+        Railway railway = new Railway();
 
         List<Route> routes = getRoute(railway);
 
@@ -29,6 +29,23 @@ public class Test1 {
             }
         }
 
+        for (int i = 0; i < railway.getRoute().size(); i++) {
+            Route route = railway.getRoute().get(i);
+
+            String path = getPath(railway, route);
+            route.setPath(path);
+            railway.getRoute().get(i).setPath(path);
+
+            String signal = getSignal(railway, route);
+            route.setSignals(signal);
+            railway.getRoute().get(i).setSignals(signal);
+
+            String points = getPoint(railway, route);
+            route.setPoints(points);
+            railway.getRoute().get(i).setPoints(points);
+
+        }
+
         for (int i = 0; i < routes.size(); i++) {
             Route route = routes.get(i);
 //            System.out.println("Route  "+route.getId()+" source: "+route.getSource()+" dest: "+route.getDest()+" direction: "+route.getDirection());
@@ -41,52 +58,18 @@ public class Test1 {
 
         railway.setUpRoutes(upRoutes);
         railway.setDownRoutes(downRoutes);
-        railway.setRoutes(routes);
 
-        for (int i = 0; i < upRoutes.size(); i++) {
-            Route route = upRoutes.get(i);
-
-            String path = getPath(railway, route);
-            railway.getUpRoutes().get(i).setPath(path);
-
-            String signal = getSignal(railway, route);
-            railway.getUpRoutes().get(i).setSignals(signal);
-
-            String points = getPoint(railway, route);
-            railway.getUpRoutes().get(i).setPoints(points);
-
+        for (int i = 0; i < railway.getRoute().size(); i++) {
+            Route route =  railway.getRoute().get(i);
             String conflicts = getConflict(railway,route);
+            route.setConflicts(conflicts);
+            railway.getRoute().get(i).setConflicts(conflicts);
 
-            System.out.println("Route " + route.getId() + " s:" + route.getSource() + " d:" + route.getDest());
-            System.out.println("path = " + path);
-            System.out.println("signal = " + signal);
-            System.out.println("conflict = "+conflicts);
-            System.out.println("point = " + points + "\n");
-
-        }
-
-
-        for (int i = 0; i < downRoutes.size(); i++) {
-            Route route = downRoutes.get(i);
-
-            String path = getPath(railway, route);
-            railway.getDownRoutes().get(i).setPath(path);
-
-            String signal = getSignal(railway, route);
-            railway.getDownRoutes().get(i).setSignals(signal);
-
-            String points = getPoint(railway, route);
-            railway.getDownRoutes().get(i).setPoints(points);
-
-            String conflicts = getConflict(railway,route);
-
-            System.out.println("Route " + route.getId() + " s:" + route.getSource() + " d:" + route.getDest());
-            System.out.println("path = " + path);
-            System.out.println("signal = " + signal);
-            System.out.println("conflict = "+conflicts);
-            System.out.println("point = " + points + "\n");
-
-
+            System.out.println("Route " + route.getId()+" s:"+route.getSource()+" d:"+route.getDest());
+            System.out.println("path = " + route.getPath());
+            System.out.println("signal = " + route.getSignals());
+            System.out.println("conflict = " + route.getConflicts());
+            System.out.println("point = " + route.getPoints() + "\n");
         }
 
     }
@@ -228,29 +211,32 @@ public class Test1 {
 
         Block next = getBlockByName(railway.getBlocks(), source.getCurrentBlock());//source block
         String path = "";
-//        System.out.println("1  s:" + source.getControllBlock() + "   d:" + dest.getCurrentBlock() + "  " + next.getNext().split(";")[0]);
+        System.out.println(route.getId()+" "+route.getDirection()+" "+route.getSource()+" "+route.getDest());
+        System.out.println("1  s:" + source.getControllBlock() + "   d:" + dest.getCurrentBlock() + "  next:" + next.getNext().split(";")[0]);
         if (route.getDirection() == 1) {
             while (!next.getNext().contains(dest.getCurrentBlock())) {
                 path += next.getNext() + ";";
-//                System.out.println(path);
+                System.out.println("after add "+path);
                 next = getBlockByName(railway.getBlocks(), next.getNext().split(";")[0]);
-//                System.out.println("2  s:" + source.getControllBlock() + "   d:" + dest.getCurrentBlock() + "  " + next.getNext().split(";")[0]);
+                System.out.println("2  s:" + source.getControllBlock() + "   d:" + dest.getCurrentBlock() + "  next:" + next.getNext().split(";")[0]);
             }
         } else {
             while (!next.getPrevious().contains(dest.getCurrentBlock())) {
                 path += next.getPrevious() + ";";
-//                System.out.println(path);
+                System.out.println("after add "+path);
                 next = getBlockByName(railway.getBlocks(), next.getPrevious().split(";")[0]);
-//                System.out.println("2  s:" + source.getControllBlock() + "   d:" + dest.getCurrentBlock() + "  " + next.getPrevious().split(";")[0]);
+                System.out.println("3  s:" + source.getControllBlock() + "   d:" + dest.getCurrentBlock() + "  next:" + next.getPrevious().split(";")[0]);
             }
         }
         path += dest.getCurrentBlock();
+        System.out.println("final path="+path);
         return path;
     }
 
     public static String getSignal(Railway railway, Route route) {
         String signal = "";
         String path = route.getPath();
+        System.out.println(route.getId()+"  "+route.getPath());
         String[] paths = path.split(";");
         List<Signal> signals = new ArrayList<>();
         boolean pointFlag = true;//true->pass a 1-2 point   false->pass a 2-1 point

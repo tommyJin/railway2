@@ -5,7 +5,7 @@
 public class Block{
     String name;
 //    int type;// 0 -> block     1 -> point
-    int type;//1->no left neigh  2->right neigh is point     3->MINUS block between points  4->PLUS block between points  5->left neigh is point  6->no right neigh   11-> 1-2 one left neigh point   21-> 2-1 one right neigh point
+    int type;//1->no left neigh  2->right neigh is point     3->MINUS block between points  4->PLUS block between points  5->left neigh is point  6->no right neigh 7->between two points  11-> 1-2 one left neigh point   21-> 2-1 one right neigh point
     int position;// 0 -> PLUS    1 -> MINUS   3 -> npt point
     String net;//branch id  n1
     String previous;

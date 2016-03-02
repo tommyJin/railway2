@@ -20,6 +20,17 @@ public class Railway {
         JsonFile jf = new JsonFile();
         this.blocks = jf.getBlock();
         this.signals = jf.getSignal();
+
+        //set up and down direction signals
+        for (int i = 0; i < this.signals.size(); i++) {
+            Signal signal = Signal.dao.getByName(this.signals, this.signals.get(i).getName());
+            if (signal.getDirection() == 1) {//signal direction=0->down  1->up
+                this.upSignals.add(signal);
+            } else {
+                this.downSignals.add(signal);
+            }
+        }
+
     }
 
     public Railway(String nonce) {
@@ -78,7 +89,6 @@ public class Railway {
             System.out.println("conflict = " + route.getConflicts());
             System.out.println("point = " + route.getPoints() + "\n");
         }
-        System.out.println("6");
 
         //set up and down direction routes
         for (int i = 0; i < this.routes.size(); i++) {
