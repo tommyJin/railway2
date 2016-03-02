@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -129,10 +130,10 @@ public class JsonFile {
         return list;
     }
 
-    public Railway getRailway(){
-        Railway railway = new Railway();
-        return railway;
-    }
+//    public Railway getRailway(){
+//        Railway railway = new Railway("");
+//        return railway;
+//    }
 
 
     /**
@@ -141,8 +142,7 @@ public class JsonFile {
     public Railway returnRailway(){
         Gson gson = new Gson();
         String jsonStr = readFile("./src/test.json");
-        Railway railway = gson.fromJson(jsonStr, Railway.class);
-//        System.out.println(railway.getSignals().size()+" "+railway.getBlocks().get(0).getName());
+        Railway railway = gson.fromJson(jsonStr, new TypeToken<Railway>(){}.getType());
         return railway;
     }
 

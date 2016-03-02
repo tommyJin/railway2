@@ -14,10 +14,16 @@ public class Railway {
     List<Route> downRoutes = new ArrayList<>();
     List<Journey> journeys = new ArrayList<>();
 
-    public Railway() {
+    public Railway(){
+
+    }
+
+    public Railway(String nonce) {
 
         JsonFile jf = new JsonFile();
-        this.signals = jf.getSignal();//get all signals from file
+        Railway railway = jf.returnRailway();//get the railway object from file
+        this.signals = railway.getSignals();//get all signals from file
+//        this.signals = jf.getSignal();
 
         //set up and down direction signals
         for (int i = 0; i < this.signals.size(); i++) {
@@ -29,7 +35,8 @@ public class Railway {
             }
         }
 
-        this.blocks = jf.getBlock();//get all blocks from file
+        this.blocks = railway.getBlocks();//get all blocks from file
+//        this.blocks = jf.getBlock();
 
         this.routes = getRoute();//get all routes
 
@@ -89,8 +96,13 @@ public class Railway {
         this.routes.clear();//reset all routes
         this.routes.addAll(upRoutes);//add all up direction routes to routes
         this.routes.addAll(downRoutes);//add all down direction routes to routes
-
     }
+
+//    public Railway(String nonce){
+//        JsonFile jf = new JsonFile();
+//        this.blocks = jf.getBlock();
+//        this.signals = jf.getSignal();
+//    }
 
     /**
     * add a journey by inputing  source and dest signals and signals which would passby
