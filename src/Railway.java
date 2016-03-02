@@ -483,7 +483,6 @@ public class Railway {
                 }
             }
         }else {
-            String lastPoint = "";
             for (int i = 0; i < points.size(); i++) {
                 point += points.get(i).getName()+":p;";
             }
@@ -525,11 +524,16 @@ public class Railway {
         String signal = "";
         String path = route.getPath();
         String[] paths = path.split(";");
+        List<Block> blocks = new ArrayList<>();//all path blocks
         List<Signal> signals = new ArrayList<>();
         boolean pointFlag = true;//true->pass a 1-2 point   false->pass a 2-1 point
         String oppsiteBlock = "";// record the other side of the block which is between two point  e.g.   if a route leave from b3 and path are p2;b5 record b4   if a route leave from b4 and path are p2;b5 record b3
         for (int i = 0; i < paths.length; i++) {
             Block block = getBlockByName(paths[i]);
+            if (block.getType()>10){
+                blocks.add(block);//add the point to the point list
+            }
+
             if (block.getType() > 10) {// the block is a point
                 if (block.getType() == 12) {  //1-2 point
                     pointFlag = true;
@@ -569,35 +573,109 @@ public class Railway {
             }
         }
 
-        if (pointFlag) {
-            for (int i = 0; i < signals.size(); i++) {
-                if (signals.get(i).getDirection() == 0) {
-                    signal += signals.get(i).getName() + ";";
+
+        if (blocks.size()==1) {
+            if (pointFlag) {
+                for (int i = 0; i < signals.size(); i++) {
+                    if (signals.get(i).getDirection() == 0) {
+                        signal += signals.get(i).getName() + ";";
+                    }
+                }
+                for (int i = 0; i < this.signals.size(); i++) {
+                    if (this.signals.get(i).getCurrentBlock().equals(oppsiteBlock) && this.signals.get(i).getDirection() != route.getDirection()) {
+                        signal += this.signals.get(i).getName();
+                    }
+                }
+            } else {
+                for (int i = 0; i < this.signals.size(); i++) {
+                    if (this.signals.get(i).getCurrentBlock().equals(oppsiteBlock) && this.signals.get(i).getDirection() == route.getDirection()) {
+                        signal += this.signals.get(i).getName() + ";";
+                        break;
+                    }
                 }
             }
+
+            String destBlock = getSignalByName(route.getDest()).getCurrentBlock();//get the dest block name
+
             for (int i = 0; i < this.signals.size(); i++) {
-                if (this.signals.get(i).getCurrentBlock().equals(oppsiteBlock) && this.signals.get(i).getDirection() != route.getDirection()) {
+                if (this.signals.get(i).getControllBlock().equals(destBlock)) {
                     signal += this.signals.get(i).getName();
-                }
-            }
-        } else {
-            for (int i = 0; i < this.signals.size(); i++) {
-                if (this.signals.get(i).getCurrentBlock().equals(oppsiteBlock) && this.signals.get(i).getDirection() == route.getDirection()) {
-                    signal += this.signals.get(i).getName() + ";";
                     break;
                 }
             }
-        }
+        }else {
+            for (int i = 0; i < blocks.size(); i++) {
+                Block block = blocks.get(i);
+                String neigh = "";
+                String previous = block.getPrevious();
+                String[] previouss = previous.split(";");
+                String next = block.getNext();
+                String[] nexts = next.split(";");
+                String source = getSignalByName(route.getSource()).getCurrentBlock() ;
+                String dest = getSignalByName(route.getDest()).getCurrentBlock() ;
+                if (i==0){
+                    for (int j = 0; j < previouss.length; j++) {
+                        if (previouss[j].equals(source) ){//e.g.    s6; is in  s6;s8
+                            neigh = previouss[j];// replace the source with ""   like    s6;s8->s8   s8 is the other block which should set the same direction signal to stop
+                            break;
+                        }
+                    }
+                    for (int j = 0; j < nexts.length; j++) {
+                        if (nexts[j].equals(source) ){//e.g.    s6; is in  s6;s8
+                            neigh = nexts[j];// replace the source with ""   like    s6;s8->s8   s8 is the other block which should set the same direction signal to stop
+                            break;
+                        }
+                    }
 
-        String destBlock = getSignalByName(route.getDest()).getCurrentBlock();//get the dest block name
 
-        for (int i = 0; i < this.signals.size(); i++) {
-            if (this.signals.get(i).getControllBlock().equals(destBlock)) {
-                signal += this.signals.get(i).getName();
-                break;
+                    if (!neigh.equals("")) {//if the first point is the neigh of the source
+                        for (int j = 0; j < this.signals.size(); j++) {
+                            if (this.signals.get(j).getCurrentBlock().equals(neigh) && this.signals.get(j).getDirection() == route.getDirection()) {//the signal which is  the same direction on the oppsite block
+                                signal += this.signals.get(j).getName() + ";";
+                                break;
+                            }
+                        }
+                    }else {
+                        //TODO  add the condition that first is not the neigh of the source
+                    }
+                }else if (i==blocks.size()-1){//the last point in this path
+                    for (int j = 0; j < previouss.length; j++) {
+                        if (previouss[j].equals(dest) ){//e.g.    s6; is in  s6;s8
+                            neigh = previous;// replace the source with ""   like    s6;s8->s8   s8 is the other block which should set the same direction signal to stop
+                            break;
+                        }
+                    }
+                    for (int j = 0; j < nexts.length; j++) {
+                        if (nexts[j].equals( dest ) ){//e.g.    s6; is in  s6;s8
+                            neigh = next;// replace the source with ""   like    s6;s8->s8   s8 is the other block which should set the same direction signal to stop
+                            break;
+                        }
+                    }
+
+
+                    System.out.println(i+" neigh:"+neigh);
+                    String[] neighs = neigh.split(";");
+                    int counter=0;
+                    for (int j = 0; j < this.signals.size(); j++) {
+                        for (int k = 0; k < neighs.length; k++) {
+                            String tmp = neighs[k];
+                            if (this.signals.get(j).getCurrentBlock().equals(tmp) && this.signals.get(j).getDirection() != route.getDirection()){
+                                signal += this.signals.get(j).getName()+";";
+                                counter++;
+                            }
+                            if ( counter == 2){
+                                break;
+                            }
+                        }
+
+                    }
+
+                }else {
+                    //TODO  if there are more than 2 points in this path    wtf
+                }
             }
         }
-        return signal;
+        return signal.substring(signal.length()-2,signal.length()-1).equals(";")?signal.substring(0,signal.length()-1):signal;
     }
 
     /**
@@ -608,17 +686,28 @@ public class Railway {
         List<String> list = new ArrayList<>();
         List<Route> routes =  this.routes;
         String path = route.getPath();
+        String[] paths = path.split(";");
 
         for (int j = 0; j < routes.size(); j++) {
             Route route1 = routes.get(j);
+            boolean isConflict = false;
             if (!route.getId().equals(route1.getId())) {
                 String path1 = route1.getPath();
                 String[] path1s = path1.split(";");
-                for (int i = 0; i < path1s.length; i++) {
-                    if (path.contains(path1s[i]+";")){
-                        if (!list.contains(route1.getId())) {
-                            list.add(route1.getId());
+                for (int i = 0; i < paths.length; i++) {
+                    for (int k = 0; k < path1s.length; k++) {
+                        if (paths[i].equals(path1s[k])){
+                            if (!list.contains(route1.getId())) {
+                                list.add(route1.getId());
+                                isConflict = true;
+                            }
                         }
+                        if (isConflict){
+                            break;
+                        }
+                    }
+                    if (isConflict){
+                        break;
                     }
                 }
             }
