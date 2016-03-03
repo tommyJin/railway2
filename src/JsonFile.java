@@ -12,8 +12,8 @@ public class JsonFile {
 
     public List<Signal> getSignal(){
         List<Signal> list = new ArrayList<>();
-
-        //map2
+/*
+        //map1
         Signal s1 = new Signal("s1",1, "b1", "b2","s4;s6");
         Signal s2 = new Signal("s2",0, "b2", "b1","");
         Signal s3 = new Signal("s3",0, "b3", "p1","s2");
@@ -21,32 +21,23 @@ public class JsonFile {
         Signal s5 = new Signal("s5",0, "b4", "p1","s2");
         Signal s6 = new Signal("s6",1, "b4", "p2","s7");
         Signal s7 = new Signal("s7",1, "b5", "b6","");
-        Signal s8 = new Signal("s8",0, "b6", "b5","s3;s5;s10");
-
-        Signal s9 = new Signal("s9",1, "b7", "b8","s7");
-        Signal s10 = new Signal("s10",0, "b8", "b7","");
-
-        /*
-        //map3
-        Signal s1 = new Signal("s1",1, "b1", "b2","s4;s6");
-        Signal s2 = new Signal("s2",0, "b2", "b1","");
-        Signal s3 = new Signal("s3",0, "b3", "p1","s2");
-        Signal s4 = new Signal("s4",1, "b3", "p2","s8;s10");
-        Signal s5 = new Signal("s5",0, "b4", "p1","s2");
-        Signal s6 = new Signal("s6",1, "b4", "p2","s8;s10");
-        Signal s7 = new Signal("s7",0, "b5", "p3","s3;s5");
-        Signal s8 = new Signal("s8",1, "b5", "p4","s11");
-
-        Signal s9 = new Signal("s9",0, "b6", "p3","s3;s5");
-        Signal s10 = new Signal("s10",1, "b6", "p4","s11");
-        Signal s11 = new Signal("s11",1, "b7", "b8","");
-        Signal s12 = new Signal("s12",0, "b8", "b7","s7;s9");
-//        Signal s13 = new Signal("s13",1, "b9", "b10","");
-//        Signal s14 = new Signal("s14",0, "b10", "b9","s9;s11");
+        Signal s8 = new Signal("s8",0, "b6", "b5","s3;s5");
 */
 
 
-
+        //map2
+        Signal s1 = new Signal("s1",1, "b1", "b2","s4;s6");
+        Signal s2 = new Signal("s2",0, "b2", "b1","");
+        Signal s3 = new Signal("s3",0, "b12", "p3","s2");
+        Signal s4 = new Signal("s4",1, "b12", "p5","s8;s10");
+        Signal s5 = new Signal("s5",0, "b4", "p3","s2");
+        Signal s6 = new Signal("s6",1, "b4", "p5","s8;s10");
+        Signal s7 = new Signal("s7",0, "b13", "p7","s3;s5");
+        Signal s8 = new Signal("s8",1, "b13", "p9","s11");
+        Signal s9 = new Signal("s9",0, "b8", "p7","s3;s5");
+        Signal s10 = new Signal("s10",1, "b8", "p9","s11");
+        Signal s11 = new Signal("s11",1, "b10", "b11","");
+        Signal s12 = new Signal("s12",0, "b11", "b10","s7;s9");
 
 
         list.add(s1);
@@ -60,150 +51,58 @@ public class JsonFile {
 
         list.add(s9);
         list.add(s10);
-//        list.add(s11);
-//        list.add(s12);
-//        list.add(s13);
-//        list.add(s14);
+        list.add(s11);
+        list.add(s12);
 
         return list;
     }
 
     public List<Block> getBlock(){
         List<Block> list = new ArrayList<>();
-
-        //map2
-        Block b1 = new Block("b1",1,"","b2","");
-        Block b2 = new Block("b2",2,"b1","p1","");
-        Block b3 = new Block("b3",3,"p1","p2","n1");
-        Block b4 = new Block("b4",4,"p1","p2","n1");
-        Block b5 = new Block("b5",5,"p3","b6","");
-        Block b6 = new Block("b6",6,"b5","","");
-        Block p1 = new Block("p1",12,"b2","b3;b4","");
-        Block p2 = new Block("p2",21,"b3;b4","p3","");
-
-        Block b7 = new Block("b7",1,"","b8","");
-        Block b8 = new Block("b8",3,"b7","p3","");
-//        Block b9 = new Block("b9",1,"","b6","");
-//        Block b10 = new Block("b10",6,"b9","","");
-        Block p3 = new Block("p3",21,"p2;b8","b5","");
-//        Block p4 = new Block("p4",21,"b5;b6","b7","");
-
-      /*
-      //map3
-        Block b1 = new Block("b1",1,"","b2","");
-        Block b2 = new Block("b2",2,"b1","p1","");
-        Block b3 = new Block("b3",3,"p1","p2","n1");
-        Block b4 = new Block("b4",4,"p1","p2","n1");
-        Block b5 = new Block("b5",3,"p3","p4","n2");
-        Block b6 = new Block("b6",4,"p3","p4","n2");
-        Block p1 = new Block("p1",12,"b2","b3;b4","");
-        Block p2 = new Block("p2",21,"b3;b4","p3","");
-
-        Block b7 = new Block("b7",5,"p4","b8","");
-        Block b8 = new Block("b8",6,"b7","","");
-//        Block b9 = new Block("b9",1,"","b6","");
-//        Block b10 = new Block("b10",6,"b9","","");
-        Block p3 = new Block("p3",12,"p2","b5;b6","");
-        Block p4 = new Block("p4",21,"b5;b6","b7","");
-
+/*
+        //map1
+        Block b1 = new Block("b1",1,"","b2");
+        Block b2 = new Block("b2",2,"b1","p1");
+        Block b3 = new Block("b3",3,"p1","p2");
+        Block b4 = new Block("b4",4,"p1","p2");
+        Block b5 = new Block("b5",5,"p2","b6");
+        Block b6 = new Block("b6",6,"b5","");
+        Block p1 = new Block("p1",12,"b2","b3;b4");
+        Block p2 = new Block("p2",21,"b3;b4","b5");
 */
 
+      //map2
+        Block b1 = new Block("b1",1,"","b2");
+        Block b2 = new Block("b2",2,"b1","p3");
+        Block b4 = new Block("b4",4,"p3","p4");
+        Block b6 = new Block("b6",7,"p5","p7");
+        Block b8 = new Block("b8",4,"p7","p9");
+        Block b10 = new Block("b10",5,"p9","b11");
+        Block b11 = new Block("b11",6,"b10","");
+        Block b12 = new Block("b12",3,"p3","p5");
+        Block b13 = new Block("b13",3,"p7","p9");
+
+        Block p3 = new Block("p3",12,"b2","b12;b4");
+        Block p4 = new Block("p4",21,"b12;b4","b6");
+        Block p7 = new Block("p7",12,"b6","b13;b8");
+        Block p8 = new Block("p8",21,"b13;b8","p9");
 
 
         list.add(b1);
         list.add(b2);
-        list.add(b3);
         list.add(b4);
-        list.add(b5);
         list.add(b6);
-
-        list.add(b7);
         list.add(b8);
-//        list.add(b9);
-//        list.add(b10);
+        list.add(b10);
+        list.add(b11);
+        list.add(b12);
+        list.add(b13);
 
-        list.add(p1);
-        list.add(p2);
 
         list.add(p3);
-//        list.add(p4);
-        return list;
-    }
-
-
-    public List<Route> getRoute(){
-        List<Route> list = new ArrayList<>();
-
-        Signal s1 = new Signal("s1",1, "b1", "b2","s4;s6");
-        Signal s2 = new Signal("s2",0, "b2", "b1","");
-        Signal s3 = new Signal("s3",0, "b3", "p1","s2");
-        Signal s4 = new Signal("s4",1, "b3", "p2","s7");
-        Signal s5 = new Signal("s5",0, "b4", "p1","s2");
-        Signal s6 = new Signal("s6",1, "b4", "p2","s7");
-        Signal s7 = new Signal("s7",1, "b5", "b6","");
-        Signal s8 = new Signal("s8",0, "b6", "b5","s3;s5");
-
-        Route r1 = new Route("r1","s1","s6",1);
-        List<Signal> signals = new ArrayList<>();
-        signals.add(s2);
-        signals.add(s3);
-        signals.add(s5);
-//        r1.setSignals(signals);
-        list.add(r1);
-
-        signals.clear();
-        Route r2 = new Route("r2","s1","s4",1);
-        signals.add(s2);
-        signals.add(s3);
-        signals.add(s5);
-//        r2.setSignals(signals);
-        list.add(r2);
-
-        signals.clear();
-        Route r3 = new Route("r3","s4","s7",1);
-        signals.add(s8);
-        signals.add(s6);
-//        r3.setSignals(signals);
-        list.add(r3);
-
-        signals.clear();
-        Route r4 = new Route("r4","s6","s7",1);
-        signals.add(s8);
-        signals.add(s4);
-//        r4.setSignals(signals);
-        list.add(r4);
-
-
-
-        signals.clear();
-        Route r5 = new Route("r5","s8","s5",0);
-        signals.add(s7);
-        signals.add(s6);
-        signals.add(s4);
-//        r5.setSignals(signals);
-        list.add(r5);
-
-        signals.clear();
-        Route r6 = new Route("r6","s8","s3",0);
-        signals.add(s7);
-        signals.add(s6);
-        signals.add(s4);
-//        r6.setSignals(signals);
-        list.add(r6);
-
-        signals.clear();
-        Route r7 = new Route("r7","s3","s2",0);
-        signals.add(s1);
-        signals.add(s6);
-//        r7.setSignals(signals);
-        list.add(r7);
-
-        signals.clear();
-        Route r8 = new Route("r8","s5","s2",0);
-        signals.add(s1);
-        signals.add(s6);
-//        r8.setSignals(signals);
-        list.add(r8);
+        list.add(p4);
+        list.add(p7);
+        list.add(p8);
 
         return list;
     }

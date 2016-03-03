@@ -7,8 +7,8 @@ import java.util.List;
 public class Journey {
     String id;
     int state;//0->waiting   1->running   2->end
-    String source;
-    String dest;
+    String source;// source signal
+    String dest;//dest signal
     String currentRoute;//current route
     String currentBlock;//current block
     List<Route> routes = new ArrayList<>();

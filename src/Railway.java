@@ -721,44 +721,49 @@ public class Railway {
 
             System.out.println("1  pre="+pre+"  next="+next);
             if (source.getType() >= 3 && source.getType() <= 4 && dest.getType() < 10) {// source is between 2 points and dest is not
-                for (int i = 0; i < pres.length; i++) {
-                    if (pres[i].equals(source.getName())) {
-                        neigh = pre;
-                        break;
-                    }
-                }
-                for (int i = 0; i < nexts.length; i++) {
-                    if (nexts[i].equals(source.getName())) {
-                        neigh = next;
-                        break;
-                    }
-                }
 
-                System.out.println("1  neigh="+neigh);
-                String[] neighs = neigh.split(";");
-                for (int i = 0; i < neighs.length; i++) {
-                    Block opp = getBlockByName(neighs[i]);
-                    System.out.println("1  opp="+opp.getName()+"  source="+source.getName());
-
-                    if (!opp.getName().equals(source.getName())) {
-                        for (int j = 0; j < this.signals.size(); j++) {
-                            System.out.println("1  current="+this.signals.get(j).getCurrentBlock()+"  dire="+this.signals.get(j).getDirection());
-                            if (this.signals.get(j).getCurrentBlock().equals(opp.getName()) && this.signals.get(j).getDirection() == route.getDirection()) {
-                                signal += this.signals.get(j).getName() + ";";
-                                break;
-                            }
+                if (point.getType()>11) { //normal point
+                    for (int i = 0; i < pres.length; i++) {
+                        if (pres[i].equals(source.getName())) {
+                            neigh = pre;
+                            break;
                         }
                     }
-                    if (!signal.equals("")) {
-                        break;//found the signal on the opp
+                    for (int i = 0; i < nexts.length; i++) {
+                        if (nexts[i].equals(source.getName())) {
+                            neigh = next;
+                            break;
+                        }
                     }
-                }
 
-                for (int i = 0; i < this.signals.size(); i++) {
-                    if (this.signals.get(i).getControllBlock().equals(dest.getName()) && this.signals.get(i).getDirection() != route.getDirection()) {
-                        signal += this.signals.get(i).getName() + ";";
-                        break;
+                    System.out.println("1  neigh=" + neigh);
+                    String[] neighs = neigh.split(";");
+                    for (int i = 0; i < neighs.length; i++) {
+                        Block opp = getBlockByName(neighs[i]);
+                        System.out.println("1  opp=" + opp.getName() + "  source=" + source.getName());
+
+                        if (!opp.getName().equals(source.getName())) {
+                            for (int j = 0; j < this.signals.size(); j++) {
+                                System.out.println("1  current=" + this.signals.get(j).getCurrentBlock() + "  dire=" + this.signals.get(j).getDirection());
+                                if (this.signals.get(j).getCurrentBlock().equals(opp.getName()) && this.signals.get(j).getDirection() == route.getDirection()) {
+                                    signal += this.signals.get(j).getName() + ";";
+                                    break;
+                                }
+                            }
+                        }
+                        if (!signal.equals("")) {
+                            break;//found the signal on the opp
+                        }
                     }
+
+                    for (int i = 0; i < this.signals.size(); i++) {
+                        if (this.signals.get(i).getControllBlock().equals(dest.getName()) && this.signals.get(i).getDirection() != route.getDirection()) {
+                            signal += this.signals.get(i).getName() + ";";
+                            break;
+                        }
+                    }
+                }else {//only one side point
+
                 }
 
             } else if (dest.getType() >= 3 && dest.getType() <= 4 && source.getType() < 10) {//dest is between two points

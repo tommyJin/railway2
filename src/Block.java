@@ -4,21 +4,19 @@
  */
 public class Block{
     String name;
-//    int type;// 0 -> block     1 -> point
-    int type;//1->no left neigh  2->right neigh is point     3->MINUS block between points  4->PLUS block between points  5->left neigh is point  6->no right neigh 7->between two points  11-> 1-2 one left neigh point   21-> 2-1 one right neigh point
-    int position;// 0 -> PLUS    1 -> MINUS   3 -> npt point
-    String net;//branch id  n1
-    String previous;
-    String next;
-    String occupy="";//occupy by which journeyId   j1,j2
+    int type;//1->no left neigh  2->right neigh is point     3->MINUS block between points  4->PLUS block between points  5->left neigh is point  6->no right neigh  7->between two points   12-> / 1-2 one left neigh point   21-> \ 2-1 one right neigh point
+    int position;// 0 -> PLUS    1 -> MINUS   3 -> not point
+//    String net;//branch id  n1   not using
+    String previous;// previous neigh  like  b4;b6 or b1
+    String next;// previous neigh  like  b7;b9 or b7
+    String occupy="";//occupy by which journeyId  like j1
 
-    public Block(String name, int type, String previous, String next, String net) {
+    public Block(String name, int type, String previous, String next) {
         this.name = name;
         this.type = type;
         this.previous = previous;
         this.next = next;
-        this.net = net;
-//        this.occupy="";
+//        this.net = net;
     }
 
     public Block() {
@@ -38,14 +36,6 @@ public class Block{
 
     public void setNext(String next) {
         this.next = next;
-    }
-
-    public String getNet() {
-        return net;
-    }
-
-    public void setNet(String net) {
-        this.net = net;
     }
 
     public String getOccupy() {
