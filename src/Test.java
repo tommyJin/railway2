@@ -7,16 +7,30 @@ public class Test {
         JsonFile jf = new JsonFile();
 //        jf.returnRailway();
 
-        Railway railway = new Railway("");
+        Railway railway = new Railway("./src/test.json");
+/*
+        //map1
+        railway.addJourney("j1", "s1", "s7", "s1;s4;s7");
+        railway.addJourney("j2", "s1", "s7", "s1;s6;s7");
+        railway.addJourney("j3", "s8", "s2", "s8;s3;s2");
+        railway.addJourney("j4", "s8", "s2", "s8;s5;s2");
+*/
 
-        String source = "s1";
-        String dest = "s7";
-        String passby = "s1;s4;s7";
+        //map2
+        railway.addJourney("j1", "s1", "s8", "s1;s4;s7;s8");
+        railway.addJourney("j2", "s1", "s8", "s1;s6;s7;s8");
+        railway.addJourney("j3", "s11", "s8", "s11;s8");
+        railway.addJourney("j4", "s9", "s10", "s9;s10");
+        railway.addJourney("j5", "s9", "s2", "s9;s3;s2");
+        railway.addJourney("j6", "s9", "s2", "s9;s5;s2");
+
+       /*
+       //map3
         railway.addJourney("j1", "s1", "s11", "s1;s4;s8;s11");
         railway.addJourney("j2", "s1", "s11", "s1;s6;s10;s11");
         railway.addJourney("j3", "s12", "s2", "s11;s9;s3;s2");
         railway.addJourney("j4", "s12", "s2", "s11;s9;s5;s2");
-
+*/
         boolean flag = true;
 
         while (flag){

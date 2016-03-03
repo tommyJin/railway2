@@ -12,6 +12,22 @@ public class JsonFile {
 
     public List<Signal> getSignal(){
         List<Signal> list = new ArrayList<>();
+
+        //map2
+        Signal s1 = new Signal("s1",1, "b1", "b2","s4;s6");
+        Signal s2 = new Signal("s2",0, "b2", "b1","");
+        Signal s3 = new Signal("s3",0, "b3", "p1","s2");
+        Signal s4 = new Signal("s4",1, "b3", "p2","s7");
+        Signal s5 = new Signal("s5",0, "b4", "p1","s2");
+        Signal s6 = new Signal("s6",1, "b4", "p2","s7");
+        Signal s7 = new Signal("s7",1, "b5", "b6","");
+        Signal s8 = new Signal("s8",0, "b6", "b5","s3;s5;s10");
+
+        Signal s9 = new Signal("s9",1, "b7", "b8","s7");
+        Signal s10 = new Signal("s10",0, "b8", "b7","");
+
+        /*
+        //map3
         Signal s1 = new Signal("s1",1, "b1", "b2","s4;s6");
         Signal s2 = new Signal("s2",0, "b2", "b1","");
         Signal s3 = new Signal("s3",0, "b3", "p1","s2");
@@ -27,7 +43,7 @@ public class JsonFile {
         Signal s12 = new Signal("s12",0, "b8", "b7","s7;s9");
 //        Signal s13 = new Signal("s13",1, "b9", "b10","");
 //        Signal s14 = new Signal("s14",0, "b10", "b9","s9;s11");
-
+*/
 
 
 
@@ -44,8 +60,8 @@ public class JsonFile {
 
         list.add(s9);
         list.add(s10);
-        list.add(s11);
-        list.add(s12);
+//        list.add(s11);
+//        list.add(s12);
 //        list.add(s13);
 //        list.add(s14);
 
@@ -54,6 +70,26 @@ public class JsonFile {
 
     public List<Block> getBlock(){
         List<Block> list = new ArrayList<>();
+
+        //map2
+        Block b1 = new Block("b1",1,"","b2","");
+        Block b2 = new Block("b2",2,"b1","p1","");
+        Block b3 = new Block("b3",3,"p1","p2","n1");
+        Block b4 = new Block("b4",4,"p1","p2","n1");
+        Block b5 = new Block("b5",5,"p3","b6","");
+        Block b6 = new Block("b6",6,"b5","","");
+        Block p1 = new Block("p1",12,"b2","b3;b4","");
+        Block p2 = new Block("p2",21,"b3;b4","p3","");
+
+        Block b7 = new Block("b7",1,"","b8","");
+        Block b8 = new Block("b8",3,"b7","p3","");
+//        Block b9 = new Block("b9",1,"","b6","");
+//        Block b10 = new Block("b10",6,"b9","","");
+        Block p3 = new Block("p3",21,"p2;b8","b5","");
+//        Block p4 = new Block("p4",21,"b5;b6","b7","");
+
+      /*
+      //map3
         Block b1 = new Block("b1",1,"","b2","");
         Block b2 = new Block("b2",2,"b1","p1","");
         Block b3 = new Block("b3",3,"p1","p2","n1");
@@ -69,6 +105,9 @@ public class JsonFile {
 //        Block b10 = new Block("b10",6,"b9","","");
         Block p3 = new Block("p3",12,"p2","b5;b6","");
         Block p4 = new Block("p4",21,"b5;b6","b7","");
+
+*/
+
 
 
         list.add(b1);
@@ -87,7 +126,7 @@ public class JsonFile {
         list.add(p2);
 
         list.add(p3);
-        list.add(p4);
+//        list.add(p4);
         return list;
     }
 
@@ -178,9 +217,9 @@ public class JsonFile {
     /**
      * read railway object from json file
      * */
-    public Railway returnRailway(){
+    public Railway returnRailway(String filepath){
         Gson gson = new Gson();
-        String jsonStr = readFile("./src/test.json");
+        String jsonStr = readFile(filepath);
         Railway railway = gson.fromJson(jsonStr, new TypeToken<Railway>(){}.getType());
         return railway;
     }
