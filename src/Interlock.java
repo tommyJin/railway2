@@ -7,7 +7,7 @@ public interface Interlock {
     /**
     *  run this network by passing added journeys
     * */
-    public List<Railway> running(List<Journey> journeys);
+    public List<Railway> running(Railway railway);
 
     /**
      *  add a journey by passing the railway object, a id(better to be generated automatically), source signal, dest signal, passby signals

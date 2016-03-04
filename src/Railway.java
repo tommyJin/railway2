@@ -111,7 +111,6 @@ public class Railway {
         }
     }
 
-
     /**
      * add a journey by inputing  source and dest signals and signals which would passby
      */
@@ -335,7 +334,6 @@ public class Railway {
         }
     }
 
-
     /**
      * release all signals by passing the route when the train has left the block
      */
@@ -419,7 +417,6 @@ public class Railway {
 
         routes.addAll(upRoutes);
         routes.addAll(downRoutes);
-        System.out.println("Total routes size="+routes.size()+" = up:"+upSignals.size()+" + down:"+downRoutes.size());
         return routes;
     }
 

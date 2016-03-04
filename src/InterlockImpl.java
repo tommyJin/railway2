@@ -6,19 +6,12 @@ import java.util.List;
  */
 public class InterlockImpl implements Interlock {
     @Override
-    public List<Railway> running(List<Journey> journeys) {
+    public List<Railway> running(Railway railway) {
         List<Railway> railways = new ArrayList<>();//store every move of the railway
-
-        Railway railway = new Railway("./resource/map1.json");
-
-
-        railway.setJourneys(journeys);
-
 
         boolean flag = true;
 
         while (flag) {
-
 
             railway.checkWaitingList();
             for (int j = 0; j < railway.getSignals().size(); j++) {

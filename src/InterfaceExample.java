@@ -13,8 +13,7 @@ public class InterfaceExample {
         Railway railway = new Railway(filepath);
         List<Journey> journeys = new ArrayList<>();
 
-
-        List<Route> routes = interlock.getRoutes(filepath);
+//        List<Route> routes = interlock.getRoutes(filepath);
 
 
 //        List<Block> blocks = interlock.getBlocks(filepath);
@@ -35,7 +34,7 @@ public class InterfaceExample {
         journeys.add(interlock.addJourney(railway,"j4",  "s12", "s2", "s12;s9;s5;s2"));
 
         //pass a journey list to the program to let it run
-        List<Railway> railways = interlock.running(journeys);
-        System.out.println("example result railways size="+railways.size());
+        railway.setJourneys(journeys);
+        List<Railway> railways = interlock.running(railway);
     }
 }
