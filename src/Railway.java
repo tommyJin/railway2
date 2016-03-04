@@ -1,3 +1,5 @@
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -109,6 +111,67 @@ public class Railway {
                 this.downRoutes.add(route);
             }
         }
+    }
+
+    /**
+    * get all possible journey passby signals by passing railway , source signal , dest signal
+    * */
+    public List<String> getJourneyPassby(String source,String dest){
+        String passby = "";
+
+        passby+=source+",";
+        Signal next = getSignalByName(source);
+        while (!next.getNext().equals(dest)){
+            passby += next.getNext()+",";
+            next = getSignalByName(next.getNext().split(";")[0]);
+        }
+        passby+=dest;
+
+        String[] passbys = passby.split(",");
+        List<Integer> index = new ArrayList<>();
+
+
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < passbys.length; i++) {
+            if (passbys[i].contains(";")){
+                index.add(i);
+            }
+        }
+
+        for (int i = 0; i < 2 * index.size(); i++) {
+            list.add(passby);
+        }
+
+        List<String> possible = new ArrayList<>();
+        for (int i = 0; i < 2*index.size(); i++) {
+            String tmp = StringUtils.leftPad(Integer.toBinaryString(i), index.size(), "0");
+            possible.add(tmp);
+        }
+
+
+        for (int i = 0; i < list.size(); i++) {
+            String wholePath = list.get(i);
+            String choice = possible.get(i);
+
+            String[] paths = wholePath.split(",");
+            String[] choices = choice.split("");
+
+            for (int j = 0; j < index.size(); j++) {
+                paths[index.get(j)] = paths[index.get(j)].split(";")[Integer.parseInt(choices[j])];
+            }
+
+            String rs = "";
+            for (int j = 0; j < paths.length; j++) {
+                rs += paths[j];
+                if (j!=paths.length-1){
+                    rs += ";";
+                }
+            }
+
+            list.set(i, rs);
+        }
+
+        return list;
     }
 
     /**

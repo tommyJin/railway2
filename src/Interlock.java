@@ -5,6 +5,11 @@ import java.util.List;
  */
 public interface Interlock {
     /**
+    * get all possible journeys passby signals
+    * */
+    public List<String> getJourneyPassby(Railway railway,String source,String dest);
+
+    /**
     *  run this network by passing added journeys
     * */
     public List<Railway> running(Railway railway);
