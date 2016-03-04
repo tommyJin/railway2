@@ -6,25 +6,24 @@ import java.util.List;
  */
 public class Test {
     public static void main(String[] args){
-        JsonFile jf = new JsonFile();
-//        jf.returnRailway();
         List<Railway> railways = new ArrayList<>();//store every move of the railway
 
-        Railway railway = new Railway("./resource/map1.json");
-        //map1
+        String filepath = "./resource/map2.json";
+        Railway railway = new Railway(filepath);
+       /* //map1
         railway.addJourney("j1", "s1", "s7", "s1;s4;s7");
         railway.addJourney("j2", "s1", "s7", "s1;s6;s7");
         railway.addJourney("j3", "s8", "s2", "s8;s3;s2");
-        railway.addJourney("j4", "s8", "s2", "s8;s5;s2");
+        railway.addJourney("j4", "s8", "s2", "s8;s5;s2");*/
 
 
-       /*
        //map2
         railway.addJourney("j1", "s1", "s11", "s1;s4;s8;s11");
         railway.addJourney("j2", "s1", "s11", "s1;s6;s10;s11");
-        railway.addJourney("j3", "s12", "s2", "s11;s9;s3;s2");
-        railway.addJourney("j4", "s12", "s2", "s11;s9;s5;s2");
-*/
+        railway.addJourney("j3", "s12", "s2", "s12;s9;s3;s2");
+        railway.addJourney("j4", "s12", "s2", "s12;s9;s5;s2");
+
+
         boolean flag = true;
 
         while (flag){

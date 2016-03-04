@@ -74,7 +74,7 @@ public class JsonFile {
       //map2
         Block b1 = new Block("b1",1,"","b2");
         Block b2 = new Block("b2",2,"b1","p3");
-        Block b4 = new Block("b4",4,"p3","p4");
+        Block b4 = new Block("b4",4,"p3","p5");
         Block b6 = new Block("b6",7,"p5","p7");
         Block b8 = new Block("b8",4,"p7","p9");
         Block b10 = new Block("b10",5,"p9","b11");
@@ -83,9 +83,9 @@ public class JsonFile {
         Block b13 = new Block("b13",3,"p7","p9");
 
         Block p3 = new Block("p3",12,"b2","b12;b4");
-        Block p4 = new Block("p4",21,"b12;b4","b6");
+        Block p5 = new Block("p5",21,"b12;b4","b6");
         Block p7 = new Block("p7",12,"b6","b13;b8");
-        Block p8 = new Block("p8",21,"b13;b8","p9");
+        Block p9 = new Block("p9",21,"b13;b8","b10");
 
 
         list.add(b1);
@@ -100,9 +100,9 @@ public class JsonFile {
 
 
         list.add(p3);
-        list.add(p4);
+        list.add(p5);
         list.add(p7);
-        list.add(p8);
+        list.add(p9);
 
         return list;
     }
