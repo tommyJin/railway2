@@ -17,15 +17,15 @@ public interface Interlock {
     /**
      *  get all routes info by passing filepath of the network file
      * */
-    public List<Route> getRoutes(String filepath);
+    public List<Route> getRoutes(Railway railway);
 
     /**
      *  get all blocks info by passing filepath of the network file
      * */
-    public List<Block> getBlocks(String filepath);
+    public List<Block> getBlocks(Railway railway);
 
     /**
      *  get all signals info by passing filepath of the network file
      * */
-    public List<Signal> getSignals(String filepath);
+    public List<Signal> getSignals(Railway railway);
 }

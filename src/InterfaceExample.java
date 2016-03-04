@@ -13,10 +13,11 @@ public class InterfaceExample {
         Railway railway = new Railway(filepath);
         List<Journey> journeys = new ArrayList<>();
 
-//        List<Route> routes = interlock.getRoutes(filepath);
+        List<Route> routes = interlock.getRoutes(railway);
 
+        List<Block> blocks = interlock.getBlocks(railway);
 
-//        List<Block> blocks = interlock.getBlocks(filepath);
+        List<Signal> signals = interlock.getSignals(railway);
 
         //add a journey to the list
         /*

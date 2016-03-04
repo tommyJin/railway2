@@ -90,22 +90,19 @@ public class InterlockImpl implements Interlock {
 
 
     @Override
-    public List<Route> getRoutes(String filepath) {
-        Railway railway = new Railway(filepath);
+    public List<Route> getRoutes(Railway railway) {
         System.out.println("getRoutes result routes size=" + railway.getRoutes().size());
         return railway.getRoutes();
     }
 
     @Override
-    public List<Block> getBlocks(String filepath) {
-        Railway railway = new Railway(filepath);
+    public List<Block> getBlocks(Railway railway) {
         System.out.println("getBlocks result routes size=" + railway.getBlocks().size());
         return railway.getBlocks();
     }
 
     @Override
-    public List<Signal> getSignals(String filepath) {
-        Railway railway = new Railway(filepath);
+    public List<Signal> getSignals(Railway railway) {
         System.out.println("getSignals result routes size=" + railway.getSignals().size());
         return railway.getSignals();
     }
