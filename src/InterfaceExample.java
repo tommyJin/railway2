@@ -50,13 +50,13 @@ public class InterfaceExample {
         //pass a journey list to the program to let it run
         railway.setJourneys(journeys);
 
-        String passby = generateJourney(railway,passbys);
+        String passby = generateJourneyPassby(railway,passbys);
         System.out.println("Chosen by me : "+passby);
 
 //        List<Railway> railways = interlock.running(railway);
     }
 
-    public static String generateJourney(Railway railway,List<String> passbys){
+    public static String generateJourneyPassby(Railway railway,List<String> passbys){
         List<Journey> journeys = railway.getJourneys();
         List<String> exits = new ArrayList<>();
         for (int i = 0; i < journeys.size(); i++) {
