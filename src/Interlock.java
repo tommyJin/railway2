@@ -1,13 +1,15 @@
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tommy on 03/03/2016 19:56
  */
 public interface Interlock {
+
     /**
-    * get all possible journeys passby signals
+    * check this journey could be added or not
     * */
-    public List<String> getJourneyPassby(Railway railway,String source,String dest);
+    public boolean check(Railway railway,Map<String,Object> map);
 
     /**
     *  run this network by passing added journeys

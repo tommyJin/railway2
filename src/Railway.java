@@ -212,13 +212,10 @@ public class Railway {
                 if (flag) {
                     this.journeys.get(i).setState(1);
 
-                    Route route = Route.dao.getById(this.routes, waiting.getCurrentRoute());
-
                     System.out.println("Journey " + this.journeys.get(i).getId() + " satisfies all conditions and set to " + this.journeys.get(i).getState() + " and lock all signals in this route");
 
-                    String currentRoute = waiting.getCurrentRoute();
-
-
+                }else {
+                    this.journeys.get(i).setState(0);//set state of the journeys
                 }
             }
         }
@@ -243,7 +240,7 @@ public class Railway {
             int state = j.getState();//current state of the journey
 
             if (state == 1) {//only the state is running could run
-                System.out.println("Journey " + id + " starts running!");
+                System.out.println("Journey " + id + " starts running!Current route="+currentRoute+" ,block="+currentBlock);
                 boolean addRouteFlag = false;
                 List<Route> routes = new ArrayList<>();// the rest routes to run for this journey
                 for (int k = 0; k < j.getRoutes().size(); k++) {
@@ -268,7 +265,7 @@ public class Railway {
                     }
                     if (k == path.length - 1 && !isInArray) {
                         this.journeys.get(i).setCurrentBlock(path[0]);//set the current block of this journey
-                        System.out.println("Journey " + this.journeys.get(i).getId() + " moves from block " + currentBlock + " to " + this.journeys.get(i).getCurrentBlock() + " and release the block " + currentBlock);
+                        System.out.println("Journey " + this.journeys.get(i).getId() + " moves from source signal block: " + currentBlock + " to first route path[0]: " + this.journeys.get(i).getCurrentBlock() + " and release the block " + currentBlock);
                         releaseBlock(currentBlock);//release the passed block
                         break;
                     } else {
@@ -395,6 +392,18 @@ public class Railway {
                 System.out.println("Release block " + name + " and now it is occupied by " + this.blocks.get(i).getOccupy());
             }
         }
+    }
+
+    /**
+     * release the block by passing the block name when the train has left the block
+     */
+    public void releaseBlockByRoute(Route route) {
+        String path = route.getPath();
+        String[] paths = path.split(";");
+        for (int i = 0; i < paths.length; i++) {
+            releaseBlock(paths[i]);
+        }
+        System.out.println("Release all blocks " + path + " of route " +route.getId());
     }
 
     /**
