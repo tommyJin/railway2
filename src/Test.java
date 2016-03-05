@@ -1,3 +1,6 @@
+import yiwei.Journey;
+import yiwei.Railway;
+
 import java.util.ArrayList;
 import java.util.List;
 

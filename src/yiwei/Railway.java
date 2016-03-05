@@ -1,9 +1,9 @@
+package yiwei;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by tommy on 2016/2/18.

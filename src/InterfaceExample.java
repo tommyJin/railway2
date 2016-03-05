@@ -1,4 +1,8 @@
-import org.apache.commons.lang3.StringUtils;
+
+import yiwei.Interlock;
+import yiwei.InterlockImpl;
+import yiwei.Railway;
+import yiwei.Route;
 
 import java.util.*;
 
@@ -7,9 +11,9 @@ import java.util.*;
  */
 public class InterfaceExample {
     public static void main(String[] args){
-        String filepath = "./resource/map2.json";
-        String source = "s12";
-        String dest = "s2";
+        String filepath = "./resource/map1.json";
+        String source = "s1";
+        String dest = "s7";
 
         Interlock interlock = new InterlockImpl();
 
@@ -20,7 +24,7 @@ public class InterfaceExample {
 
         //check interface demo
         Map<String,Object> map = new HashMap<>();
-        String journey = "s1;s4;s8;s11";
+        String journey = "s1;s4;s7";
         map.put("journey",journey);
         map.put("journeyId","j1");
         List<String> paths = new ArrayList<>();
@@ -38,7 +42,7 @@ public class InterfaceExample {
 
         System.out.println(flag);
         System.out.println(interlock.check(railway, map)+"  "+railway.getJourneys().size());//attempt to add the same journey
-
+        //check ends
 
 
 
