@@ -33,18 +33,18 @@ public class InterfaceExample {
         }
         map.put("path",paths);
 
-        boolean flag = interlock.check(railway, map);
+//        boolean flag = interlock.check(railway, map);
 
 
-        System.out.println(flag);
-        System.out.println(interlock.check(railway, map)+"  "+railway.getJourneys().size());//attempt to add the same journey
-
-
-
+//        System.out.println(flag);
+//        System.out.println(interlock.check(railway, map)+"  "+railway.getJourneys().size());//attempt to add the same journey
 
 
 
-//        List<Journey> journeys = new ArrayList<>();
+
+
+
+        List<Journey> journeys = new ArrayList<>();
 
       /*  //add a journey to the list
         //map1
@@ -52,17 +52,19 @@ public class InterfaceExample {
         journeys.add(interlock.addJourney(railway,"j2", "s1", "s7", "s1;s6;s7"));
         journeys.add(interlock.addJourney(railway,"j3", "s8", "s2", "s8;s3;s2"));
         journeys.add(interlock.addJourney(railway,"j4", "s8", "s2", "s8;s5;s2"));*/
-/*
+
         //map2
         journeys.add(interlock.addJourney(railway,"j1",  "s1", "s11", "s1;s4;s8;s11"));
         journeys.add(interlock.addJourney(railway,"j2",  "s1", "s11", "s1;s6;s10;s11"));
+        journeys.add(interlock.addJourney(railway,"j7",  "s1", "s11", "s1;s4;s10;s11"));
+        journeys.add(interlock.addJourney(railway,"j8",  "s1", "s11", "s1;s6;s8;s11"));
         journeys.add(interlock.addJourney(railway,"j3",  "s12", "s2", "s12;s9;s3;s2"));
         journeys.add(interlock.addJourney(railway,"j4",  "s12", "s2", "s12;s9;s5;s2"));
         journeys.add(interlock.addJourney(railway,"j5",  "s12", "s2", "s12;s7;s3;s2"));
         journeys.add(interlock.addJourney(railway,"j6",  "s12", "s2", "s12;s7;s5;s2"));
 
         //pass a journey list to the program to let it run
-        railway.setJourneys(journeys);*/
+        railway.setJourneys(journeys);
 
 //        String passby = generateJourneyPassby(railway,passbys);
 //        System.out.println("Chosen by me : "+passby);

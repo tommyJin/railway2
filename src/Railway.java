@@ -114,18 +114,18 @@ public class Railway {
     }
 
     /**
-    * get all possible journey passby signals by passing railway , source signal , dest signal
-    * */
-    public List<String> getJourneyPassby(String source,String dest){
+     * get all possible journey passby signals by passing railway , source signal , dest signal
+     */
+    public List<String> getJourneyPassby(String source, String dest) {
         String passby = "";
 
-        passby+=source+",";
+        passby += source + ",";
         Signal next = getSignalByName(source);
-        while (!next.getNext().equals(dest)){
-            passby += next.getNext()+",";
+        while (!next.getNext().equals(dest)) {
+            passby += next.getNext() + ",";
             next = getSignalByName(next.getNext().split(";")[0]);
         }
-        passby+=dest;
+        passby += dest;
 
         String[] passbys = passby.split(",");
         List<Integer> index = new ArrayList<>();
@@ -133,7 +133,7 @@ public class Railway {
 
         List<String> list = new ArrayList<>();
         for (int i = 0; i < passbys.length; i++) {
-            if (passbys[i].contains(";")){
+            if (passbys[i].contains(";")) {
                 index.add(i);
             }
         }
@@ -143,7 +143,7 @@ public class Railway {
         }
 
         List<String> possible = new ArrayList<>();
-        for (int i = 0; i < 2*index.size(); i++) {
+        for (int i = 0; i < 2 * index.size(); i++) {
             String tmp = StringUtils.leftPad(Integer.toBinaryString(i), index.size(), "0");
             possible.add(tmp);
         }
@@ -163,7 +163,7 @@ public class Railway {
             String rs = "";
             for (int j = 0; j < paths.length; j++) {
                 rs += paths[j];
-                if (j!=paths.length-1){
+                if (j != paths.length - 1) {
                     rs += ";";
                 }
             }
@@ -214,7 +214,7 @@ public class Railway {
 
                     System.out.println("Journey " + this.journeys.get(i).getId() + " satisfies all conditions and set to " + this.journeys.get(i).getState() + " and lock all signals in this route");
 
-                }else {
+                } else {
                     this.journeys.get(i).setState(0);//set state of the journeys
                 }
             }
@@ -240,7 +240,7 @@ public class Railway {
             int state = j.getState();//current state of the journey
 
             if (state == 1) {//only the state is running could run
-                System.out.println("Journey " + id + " starts running!Current route="+currentRoute+" ,block="+currentBlock);
+                System.out.println("Journey " + id + " starts running!Current route=" + currentRoute + " ,block=" + currentBlock);
                 boolean addRouteFlag = false;
                 List<Route> routes = new ArrayList<>();// the rest routes to run for this journey
                 for (int k = 0; k < j.getRoutes().size(); k++) {
@@ -265,25 +265,35 @@ public class Railway {
                     }
                     if (k == path.length - 1 && !isInArray) {
                         this.journeys.get(i).setCurrentBlock(path[0]);//set the current block of this journey
-                        System.out.println("Journey " + this.journeys.get(i).getId() + " moves from source signal block: " + currentBlock + " to first route path[0]: " + this.journeys.get(i).getCurrentBlock() + " and release the block " + currentBlock);
+                        System.out.println("Journey " + this.journeys.get(i).getId() + " moves from source signal block: " + currentBlock + " to first route path[0]: " + this.journeys.get(i).getCurrentBlock() + " and release all blocks in previous route " + route.getId());
                         releaseBlock(currentBlock);//release the passed block
                         break;
                     } else {
                         if (path[k].equals(currentBlock)) {// if the train is on this block
                             if (k < path.length - 1) {//there are more than one block to go in this route
                                 this.journeys.get(i).setCurrentBlock(path[k + 1]);//set the current block of this journey
-                                System.out.println("Journey " + this.journeys.get(i).getId() + " moves from block " + currentBlock + " to " + this.journeys.get(i).getCurrentBlock() + " and release the block " + currentBlock);
-                                releaseBlock(currentBlock);//release the passed block
+                                System.out.println("Journey " + this.journeys.get(i).getId() + " moves from block " + currentBlock + " to " + this.journeys.get(i).getCurrentBlock() );
+//                                releaseBlock(currentBlock);//release the passed block
+                                releaseBlockByRoute(route);
                             } else {
                                 this.journeys.get(i).setCurrentBlock(path[k]);//set the current block of this journey
                                 if (routes.size() > 1) {//there are more than one route left to run in this journey
                                     this.journeys.get(i).setCurrentRoute(routes.get(1).getId());//set the current route id by the next route of the route list
                                     this.journeys.get(i).setState(0);//set the state waiting
-                                    System.out.println("Journey " + this.journeys.get(i).getId() + " has " + routes.size() + " routes and moves from route " + currentRoute + " to " + this.journeys.get(i).getCurrentRoute() + " and change state from " + state + " to " + this.journeys.get(i).getState());
+                                    boolean lockFlag = lock(this.journeys.get(i), routes.get(1).getId());
+                                    if (!lockFlag) {
+                                        //lock failed
+                                        System.out.println("Lock failed!Journey " + this.journeys.get(i).getId() + " has " + routes.size() + " routes and moves from route " + currentRoute + " to " + this.journeys.get(i).getCurrentRoute() + " and change state from " + state + " to " + this.journeys.get(i).getState());
+                                    } else {
+                                        //lock succeeded
+                                        System.out.println("Lock succeeded!Journey " + this.journeys.get(i).getId() + " has " + routes.size() + " routes and moves from route " + currentRoute + " to " + this.journeys.get(i).getCurrentRoute() + " and change state from " + state + " to " + this.journeys.get(i).getState());
+                                        //release all blocks in this route
+                                    }
                                 } else {
                                     this.journeys.get(i).setState(2);//set this journey end
-                                    System.out.println("Journey " + this.journeys.get(i).getId() + " has no routes to run and change state from " + state + " to " + this.journeys.get(i).getState() + " and release all signals in this route");
-                                    releaseBlock(currentBlock);//release the passed block
+                                    System.out.println("Journey " + this.journeys.get(i).getId() + " has no routes to run and change state from " + state + " to " + this.journeys.get(i).getState() + " and release all signals and blocks in this route");
+                                    releaseBlockByRoute(route);
+//                                    releaseBlock(currentBlock);//release the passed block
                                 }
                                 releaseSignal(route);
                             }
@@ -312,7 +322,7 @@ public class Railway {
 
         Route route = Route.dao.getById(this.routes, routeId);//get the current route
         String path = route.getPath();//get the passing path of the route
-        System.out.println(this.routes.size()+" Route is "+route.getId()+" Path is " + path);
+        System.out.println(this.routes.size() + " Route is " + route.getId() + " Path is " + path);
         String[] paths = path.split(";");
 
         for (int i = 0; i < blocks.size(); i++) {
@@ -389,7 +399,7 @@ public class Railway {
         for (int i = 0; i < this.blocks.size(); i++) {
             if (this.blocks.get(i).getName().equals(name)) {
                 this.blocks.get(i).setOccupy("");
-                System.out.println("Release block " + name + " and now it is occupied by " + this.blocks.get(i).getOccupy());
+//                System.out.println("Release block " + name + " and now it is occupied by " + this.blocks.get(i).getOccupy());
             }
         }
     }
@@ -403,7 +413,7 @@ public class Railway {
         for (int i = 0; i < paths.length; i++) {
             releaseBlock(paths[i]);
         }
-        System.out.println("Release all blocks " + path + " of route " +route.getId());
+        System.out.println("Release all blocks " + path + " of route " + route.getId());
     }
 
     /**
@@ -495,41 +505,41 @@ public class Railway {
     /**
      * get all points by the route
      */
-    public String getPoint(Route route){
+    public String getPoint(Route route) {
         String point = "";
 
         Block source = getBlockByName(getSignalByName(route.getSource()).getCurrentBlock());
         Block dest = getBlockByName(getSignalByName(route.getDest()).getCurrentBlock());
 
-        if (source.getType()==3 || source.getType()==4){
+        if (source.getType() == 3 || source.getType() == 4) {
             Block previous = getBlockByName(source.getPrevious());
             Block next = getBlockByName(source.getNext());
-            if (route.getDirection()==1){
-                point += next.getName()+":";
-            }else {
-                point += previous.getName()+":";
+            if (route.getDirection() == 1) {
+                point += next.getName() + ":";
+            } else {
+                point += previous.getName() + ":";
             }
-            point += source.getType()==3?"m;":"p;";
+            point += source.getType() == 3 ? "m;" : "p;";
         }
-        if (dest.getType()==3 || dest.getType()==4){
+        if (dest.getType() == 3 || dest.getType() == 4) {
             Block previous = getBlockByName(dest.getPrevious());
             Block next = getBlockByName(dest.getNext());
 
-            if (route.getDirection()==1){
-                if (dest.getType()==3){
-                    point += previous.getName()+":m;";
-                    point += next.getName()+":p;";
-                }else {
-                    point += previous.getName()+":p;";
-                    point += next.getName()+":m;";
+            if (route.getDirection() == 1) {
+                if (dest.getType() == 3) {
+                    point += previous.getName() + ":m;";
+                    point += next.getName() + ":p;";
+                } else {
+                    point += previous.getName() + ":p;";
+                    point += next.getName() + ":m;";
                 }
-            }else {
-                if (dest.getType()==3){
-                    point += previous.getName()+":p;";
-                    point += next.getName()+":m;";
-                }else {
-                    point += previous.getName()+":m;";
-                    point += next.getName()+":p;";
+            } else {
+                if (dest.getType() == 3) {
+                    point += previous.getName() + ":p;";
+                    point += next.getName() + ":m;";
+                } else {
+                    point += previous.getName() + ":m;";
+                    point += next.getName() + ":p;";
                 }
             }
         }
@@ -565,37 +575,37 @@ public class Railway {
     /**
      * get all signals by the route
      */
-    public String getSignal(Route route){
+    public String getSignal(Route route) {
         String signal = "";
         Block source = getBlockByName(getSignalByName(route.getSource()).getCurrentBlock());
         Block dest = getBlockByName(getSignalByName(route.getDest()).getCurrentBlock());
 
-        if (source.getType()==3 || source.getType()==4){//source is between two points
+        if (source.getType() == 3 || source.getType() == 4) {//source is between two points
             String previous = source.getPrevious();
             String next = source.getNext();
 
             for (int i = 0; i < this.signals.size(); i++) {
                 Signal s = this.signals.get(i);
                 Block b = getBlockByName(s.getCurrentBlock());
-                if (b.getPrevious().equals(previous) && b.getNext().equals(next) && b.getType()!=source.getType() && s.getDirection()==route.getDirection()){
-                    signal += s.getName()+";";
+                if (b.getPrevious().equals(previous) && b.getNext().equals(next) && b.getType() != source.getType() && s.getDirection() == route.getDirection()) {
+                    signal += s.getName() + ";";
                     break;
                 }
             }
-            if (dest.getType()!=3 && dest.getType()!=4){
+            if (dest.getType() != 3 && dest.getType() != 4) {
                 for (int i = 0; i < this.signals.size(); i++) {
-                    if (this.signals.get(i).getControllBlock().equals(dest.getName()) && this.signals.get(i).getDirection()!=route.getDirection()){
-                        signal += this.signals.get(i).getName()+";";
+                    if (this.signals.get(i).getControllBlock().equals(dest.getName()) && this.signals.get(i).getDirection() != route.getDirection()) {
+                        signal += this.signals.get(i).getName() + ";";
                     }
                 }
             }
         }
 
-        if (dest.getType()==3 || dest.getType()==4){//source is between two points
-            if (source.getType()!=3 && source.getType()!=4){
+        if (dest.getType() == 3 || dest.getType() == 4) {//source is between two points
+            if (source.getType() != 3 && source.getType() != 4) {
                 for (int i = 0; i < this.signals.size(); i++) {
-                    if (this.signals.get(i).getControllBlock().equals(source.getName()) && this.signals.get(i).getDirection()!=route.getDirection()){
-                        signal += this.signals.get(i).getName()+";";
+                    if (this.signals.get(i).getControllBlock().equals(source.getName()) && this.signals.get(i).getDirection() != route.getDirection()) {
+                        signal += this.signals.get(i).getName() + ";";
                     }
                 }
             }
@@ -606,8 +616,8 @@ public class Railway {
             for (int i = 0; i < this.signals.size(); i++) {
                 Signal s = this.signals.get(i);
                 Block b = getBlockByName(s.getCurrentBlock());
-                if (b.getPrevious().equals(previous) && b.getNext().equals(next)  && s.getDirection()!=route.getDirection()){
-                    signal += s.getName()+";";
+                if (b.getPrevious().equals(previous) && b.getNext().equals(next) && s.getDirection() != route.getDirection()) {
+                    signal += s.getName() + ";";
                 }
             }
         }
